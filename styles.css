@@ -50,11 +50,11 @@ img { max-width: 100%; display: block; }
 .skip-link:focus { top: 16px; }
 
 /* ---------- Типографіка ---------- */
-h1, h2, h3 { font-family: var(--serif); font-weight: 500; margin: 0; text-wrap: balance; letter-spacing: -.005em; }
+h1, h2, h3 { font-family: var(--head, var(--serif)); font-weight: 500; margin: 0; text-wrap: balance; letter-spacing: -.005em; }
 h1 { font-size: clamp(2.7rem, 4.8vw, 4.6rem); line-height: 1.04; margin-bottom: 26px; letter-spacing: -.02em; }
 h2 { font-size: clamp(2rem, 3.3vw, 3rem); line-height: 1.1; margin-bottom: 24px; letter-spacing: -.015em; }
 h3 { font-size: 1.4rem; line-height: 1.2; }
-h1 em, h2 em { font-style: italic; font-weight: 400; color: var(--clay-text); }
+h1 em, h2 em { font-style: normal; font-weight: 400; color: var(--clay-text); }
 p { margin: 0 0 1em; text-wrap: pretty; }
 .eyebrow { margin: 0 0 20px; color: var(--muted); font-size: .8rem; font-weight: 650; letter-spacing: .16em; text-transform: uppercase; }
 .lead { font-family: var(--serif); font-size: 1.3rem; line-height: 1.5; color: var(--muted); max-width: 30em; margin-bottom: 34px; }
@@ -354,3 +354,31 @@ html.no-motion [data-par] img, html.no-motion .ticker-row { transform: none !imp
 /* дихання запускають кнопкою — повільне коло лишаємо */
 html.no-motion .breathe-ring.inhale .breathe-dot { transition-duration: 4s !important; }
 html.no-motion .breathe-ring.exhale .breathe-dot { transition-duration: 6s !important; }
+
+/* ---------- Перший екран з її фото (правка 28.10: «фото на задньому плані») ---------- */
+.hero-photo { position: relative; isolation: isolate; min-height: min(820px, calc(100svh - var(--hh))); color: var(--paper); border-bottom: 0; }
+.hero-bg { position: absolute; inset: 0; margin: 0; z-index: -1; overflow: hidden; }
+.hero-bg img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.hero-bg::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(20, 28, 18, .58) 0%, rgba(20, 28, 18, .46) 50%, rgba(20, 28, 18, .66) 100%); }
+.hero-photo .hero-txt { text-align: center; max-width: 980px; padding-top: 96px; padding-bottom: 96px; }
+.hero-photo h1 { font-size: clamp(2.6rem, 4.4vw, 4.2rem); max-width: 22ch; margin-inline: auto; color: var(--paper); text-shadow: 0 2px 24px rgba(0,0,0,.25); }
+.hero-photo h1 em { color: var(--sand); }
+.hero-photo .eyebrow { color: rgba(244, 238, 229, .82); }
+.hero-photo .eyebrow::before { margin-inline: auto; background: var(--sand); }
+.hero-photo .lead { color: rgba(244, 238, 229, .9); margin-inline: auto; }
+.hero-photo .hero-cta { justify-content: center; }
+.hero-photo .more { color: var(--paper); text-decoration-color: rgba(244, 238, 229, .5); }
+.hero-photo .facts { justify-content: center; color: rgba(244, 238, 229, .85); border-top-color: rgba(244, 238, 229, .28); }
+.hero-photo .facts li::before { background: var(--sand); }
+html.no-motion .hero-bg img { transform: none !important; }
+
+/* ---------- Книжка (сторінка «Про мене») ---------- */
+.book-in { display: grid; grid-template-columns: minmax(240px, 380px) 1fr; gap: clamp(28px, 5vw, 72px); align-items: center; }
+.book-ph { margin: 0; aspect-ratio: 4 / 5; overflow: hidden; border-radius: 6px; }
+.book-ph img { width: 100%; height: 100%; object-fit: cover; display: block; }
+@media (max-width: 800px) { .book-in { grid-template-columns: 1fr; } .book-ph { max-width: 420px; } }
+
+/* Сторінка «Запис»: перший блок замість героя (її правка 28.10) */
+.places-first { border-bottom: 1px solid var(--line); }
+.places-first .wrap { padding-top: clamp(56px, 10vh, 110px); }
+.places-first h1 { font-size: clamp(2.8rem, 4.6vw, 4.4rem); margin-bottom: 26px; }
