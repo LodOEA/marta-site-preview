@@ -11,8 +11,8 @@
   <meta property="og:description" content="Марта Хомченко, лікарка-психіатр, приватна практика онлайн. Підхід, освіта, 3 роки практики та навчання.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,500;0,7..72,600;1,7..72,400;1,7..72,500&family=Manrope:wght@400;500;600;700&family=Oswald:wght@400;500&display=swap" rel="stylesheet">
-  <style>:root{--head:'Oswald', var(--sans);}</style>
+  <link href="https://fonts.googleapis.com/css2?family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,500;0,7..72,600;1,7..72,400;1,7..72,500&family=Manrope:wght@400;500;600;700&family=Oswald:wght@400;500&family=Caveat:wght@500;600&display=swap" rel="stylesheet">
+  <style>:root{--head:'Oswald', var(--sans);--script:'Caveat', cursive;}</style>
   <link rel="stylesheet" href="styles.css">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <script>/* налаштування комфорту: до першого малювання, без «стрибка» */
@@ -47,20 +47,26 @@
   </header>
 
   <main id="main">
-    <section class="hero hero-page" aria-labelledby="about-title">
+    <section class="hero hero-page hero-split" aria-labelledby="about-title">
       <div class="hero-txt">
-        <p class="eyebrow">Про мене</p>
-        <h1 id="about-title">Кожна людина: <em>окремий світ</em></h1>
-        <p class="lead">Я Марта Хомченко, лікарка-психіатр. Веду самостійну приватну практику онлайн. Люблю слухати людей і бачити, як вони зростають у процесі терапії.</p>
-        <a href="https://t.me/smrt0221" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-lg">Записатись</a>
+        <div>
+          <p class="eyebrow">Про мене</p>
+          <h1 id="about-title">Кожна людина: <em>окремий світ</em></h1>
+          <p class="lead">Я Марта Хомченко, лікарка-психіатр. Веду приватну практику онлайн. Люблю слухати людей і бачити, як вони зростають у процесі терапії.</p>
+          <a href="https://t.me/smrt0221" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-lg">Записатись</a>
+        </div>
+        <figure class="ph hero-portrait" data-par><img src="assets/photos/marta-portrait-studio.jpg" alt="Портрет Марти Хомченко" style="object-position:50% 30%" loading="eager" fetchpriority="high" decoding="async"></figure>
       </div>
     </section>
 
     <section class="sec" aria-labelledby="way-title">
-      <div class="wrap narrow">
-        <p class="eyebrow">Підхід</p>
-        <h2 id="way-title">Емпатія до людини, <em>а не лише до симптомів</em></h2>
-        <p class="lead-s">Особливо близькі мені теми: травматичні стресові розлади, розлади особистості й поєднані стани. Працюю українською та англійською.</p>
+      <div class="wrap photo-in">
+        <div>
+          <p class="eyebrow">Підхід</p>
+          <h2 id="way-title">Емпатія до людини, <em>а не лише до симптомів</em></h2>
+          <p class="lead-s">Особливо близькі мені теми: травматичні стресові розлади, розлади особистості й поєднані стани. Працюю українською та англійською.</p>
+        </div>
+        <figure class="ph section-ph" data-par><img src="assets/photos/marta-reading.jpg" alt="Марта читає книжку в кріслі" style="object-position:50% 50%" loading="lazy" decoding="async"></figure>
       </div>
     </section>
 
@@ -71,6 +77,11 @@
         <ul class="tags" role="list">
           <li>книжки</li><li>подорожі</li><li>музика</li><li>природа</li><li>чайні церемонії</li><li>кіно</li>
         </ul>
+        <div class="collage">
+          <figure class="ph " data-par><img src="assets/photos/marta-travel-lawn.jpg" alt="Марта на газоні перед старовинним університетом у подорожі" style="object-position:50% 60%" loading="lazy" decoding="async"></figure>
+          <figure class="ph " data-par><img src="assets/photos/marta-travel-columns.jpg" alt="Марта біля колон перед будівлею з класичним портиком" style="object-position:50% 55%" loading="lazy" decoding="async"></figure>
+          <figure class="ph " data-par><img src="assets/photos/marta-hammock.jpg" alt="Марта в гамаку в саду" style="object-position:50% 40%" loading="lazy" decoding="async"></figure>
+        </div>
       </div>
     </section>
 
@@ -86,34 +97,40 @@
     </section>
 
     <section class="sec" aria-labelledby="exp-title">
-      <div class="wrap narrow">
-        <p class="eyebrow">Досвід</p>
-        <h2 id="exp-title">Професійна опора</h2>
-        <dl class="spec">
-          <div><dt>Освіта</dt><dd>Національний медичний університет імені О. О. Богомольця</dd></div>
-          <div><dt>Спеціалізація</dt><dd>Психіатрія</dd></div>
-          <div><dt>КПТ</dt><dd>Український інститут когнітивно-поведінкової терапії, навчання в процесі</dd></div>
-          <div><dt>Практика</dt><dd>3 роки</dd></div>
-        </dl>
-        <details class="fold">
-          <summary>Навчання й професійні заходи</summary>
-          <ul class="dots" role="list">
-            <li>European Congress of Psychiatry, Іспанія, 2025</li>
-            <li>Ukrainian Psychiatric Association Research Course, Норвегія, 2024</li>
-            <li>Hidden Wounds of War: Trauma, Healing and Recovery, Литва, 2024</li>
-            <li>Mental Health Opportunities in a Country at War, 2024</li>
-            <li>Ukrainian Psychiatric Association Research Course, Польща, 2023</li>
-            <li>23rd WPA World Congress of Psychiatry, Відень, Австрія</li>
-          </ul>
-        </details>
+      <div class="wrap photo-in">
+        <div>
+          <p class="eyebrow">Досвід</p>
+          <h2 id="exp-title">Професійна опора</h2>
+          <dl class="spec">
+            <div><dt>Освіта</dt><dd>Національний медичний університет імені О. О. Богомольця</dd></div>
+            <div><dt>Спеціалізація</dt><dd>Психіатрія</dd></div>
+            <div><dt>КПТ</dt><dd>Український інститут когнітивно-поведінкової терапії, навчання в процесі</dd></div>
+            <div><dt>Практика</dt><dd>3 роки</dd></div>
+          </dl>
+          <details class="fold">
+            <summary>Навчання й професійні заходи</summary>
+            <ul class="dots" role="list">
+              <li>European Congress of Psychiatry, Іспанія, 2025</li>
+              <li>Ukrainian Psychiatric Association Research Course, Норвегія, 2024</li>
+              <li>Hidden Wounds of War: Trauma, Healing and Recovery, Литва, 2024</li>
+              <li>Mental Health Opportunities in a Country at War, 2024</li>
+              <li>Ukrainian Psychiatric Association Research Course, Польща, 2023</li>
+              <li>23rd WPA World Congress of Psychiatry, Відень, Австрія</li>
+            </ul>
+          </details>
+        </div>
+        <figure class="ph section-ph" data-par><img src="assets/photos/space-desk-flowers.jpg" alt="Рожеві троянди та канцелярське приладдя на робочому столі" style="object-position:50% 50%" loading="lazy" decoding="async"></figure>
       </div>
     </section>
 
     <section class="sec alt" aria-labelledby="space-title">
-      <div class="wrap">
-        <p class="eyebrow">Онлайн</p>
-        <h2 id="space-title">Де проходять <em>зустрічі</em></h2>
-        <p class="lead-s">Зустрічаємося тільки онлайн у Google Meet. Оберіть місце, де вам зручно говорити й де вас не перериватимуть. На розмову відводимо одну годину.</p>
+      <div class="wrap photo-in">
+        <div>
+          <p class="eyebrow">Онлайн</p>
+          <h2 id="space-title">Де проходять <em>зустрічі</em></h2>
+          <p class="lead-s">Зустрічаємося тільки онлайн у Google Meet. Оберіть місце, де вам зручно говорити й де вас не перериватимуть. На розмову відводимо одну годину.</p>
+        </div>
+        <figure class="ph section-ph" data-par><img src="assets/photos/space-window.jpg" alt="Два крісла біля світлого вікна з рослинами" style="object-position:50% 50%" loading="lazy" decoding="async"></figure>
       </div>
     </section>
 
@@ -136,11 +153,10 @@
         </div>
       </div>
     </section>
-
-    <section class="sec cta-band" aria-labelledby="cta-title">
+    <section class="sec cta-band cta-a" aria-label="Запис на консультацію">
       <div class="wrap cta-in">
-        <h2 id="cta-title">Познайомимося?</h2>
-        <a href="zapys.html" class="btn btn-light btn-lg">Записатися на консультацію</a>
+        <p class="cta-copy">Зустрічаємося у Google Meet.</p>
+        <a href="zapys.html" class="btn btn-primary btn-lg">Записатися на консультацію</a>
       </div>
     </section>
   </main>
@@ -160,6 +176,7 @@
         <a href="https://www.instagram.com/dr.marta.khomchenko/" target="_blank" rel="noopener noreferrer">Instagram</a>
       </nav>
       <p class="footer-help"><a href="dopomoha.html">Невідкладна допомога</a>: якщо є загроза життю, телефонуйте <a href="tel:103">103</a>.</p>
+      <p class="footer-credit"><a href="https://temssystems.com" rel="noopener">Created by TEMS</a></p>
     </div>
   </footer>
 

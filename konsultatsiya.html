@@ -11,8 +11,8 @@
   <meta property="og:description" content="Онлайн-консультація лікарки-психіатра у Google Meet: одна година, 18+, кроки зустрічі та підготовка.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,500;0,7..72,600;1,7..72,400;1,7..72,500&family=Manrope:wght@400;500;600;700&family=Oswald:wght@400;500&display=swap" rel="stylesheet">
-  <style>:root{--head:'Oswald', var(--sans);}</style>
+  <link href="https://fonts.googleapis.com/css2?family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,500;0,7..72,600;1,7..72,400;1,7..72,500&family=Manrope:wght@400;500;600;700&family=Oswald:wght@400;500&family=Caveat:wght@500;600&display=swap" rel="stylesheet">
+  <style>:root{--head:'Oswald', var(--sans);--script:'Caveat', cursive;}</style>
   <link rel="stylesheet" href="styles.css">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <script>/* налаштування комфорту: до першого малювання, без «стрибка» */
@@ -47,14 +47,18 @@
   </header>
 
   <main id="main">
-    <section class="hero hero-page" aria-labelledby="c-title">
+    <section class="hero hero-page hero-split consultation-hero" aria-labelledby="c-title">
       <div class="hero-txt">
-        <p class="eyebrow">Консультація · Онлайн · 18+</p>
-        <h1 id="c-title">Година спокійної <em>розмови</em></h1>
-        <p class="lead">Зустрічаємося у Google Meet. Можна ставити запитання на кожному етапі.</p>
-        <div class="hero-cta"><a href="https://t.me/smrt0221" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-lg">Записатись</a></div><ul class="facts" role="list">
+        <div>
+          <p class="eyebrow">Консультація · Онлайн · 18+</p>
+          <h1 id="c-title">Година спокійної <em>розмови</em></h1>
+          <p class="lead">Зустрічаємося у Google Meet. Можна ставити запитання на кожному етапі.</p>
+          <div class="hero-cta"><a href="https://t.me/smrt0221" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-lg">Записатись</a></div>
+          <ul class="facts" role="list">
           <li>1 година</li><li>18+</li><li>Конфіденційно</li><li>Можна з близькою людиною</li>
         </ul>
+        </div>
+        <figure class="ph consultation-ph" data-par><img src="assets/photos/space-sofa.jpg" alt="Сірий диван під зеленими рослинами у затишній кімнаті" style="object-position:50% 50%" loading="eager" fetchpriority="high" decoding="async"></figure>
       </div>
     </section>
 
@@ -70,7 +74,7 @@
     </section>
 
     <section class="sec" aria-labelledby="p-title">
-      <div class="wrap narrow">
+      <div class="wrap side-in">
         <div>
           <p class="eyebrow">Підготовка</p>
           <h2 id="p-title">Що підготувати <em>до розмови</em></h2>
@@ -83,10 +87,24 @@
           </ul>
           <dl class="spec">
             <div><dt>Вік</dt><dd>Приймаю дорослих від 18 років</dd></div>
-            <div><dt>Межі</dt><dd>Не працюю із залежностями та РАС</dd></div>
             <div><dt>Перенесення</dt><dd>Попередьте, будь ласка, щонайменше за 48 годин</dd></div>
           </dl>
         </div>
+        <figure class="ph side-ph" data-par><img src="assets/photos/mood-coast.jpg" alt="Туманне узбережжя зі скелями" style="object-position:50% 50%" loading="lazy" decoding="async"></figure>
+      </div>
+    </section>
+
+    <section class="band" aria-label="Цитата">
+      <figure class="ph band-ph" data-par><img src="assets/photos/mood-horses.jpg" alt="Два коні пасуться на зеленому лузі" style="object-position:50% 60%" loading="lazy" decoding="async"></figure>
+      <div class="wrap band-in">
+        <p class="band-q">Те, що ви розповідаєте на консультації, залишається між нами</p>
+        
+      </div>
+    </section>
+    <section class="sec cta-band cta-a" aria-label="Запис на консультацію">
+      <div class="wrap cta-in">
+        <p class="cta-copy">Зустрічаємося у Google Meet.</p>
+        <a href="zapys.html" class="btn btn-primary btn-lg">Записатися на консультацію</a>
       </div>
     </section>
   </main>
@@ -106,6 +124,7 @@
         <a href="https://www.instagram.com/dr.marta.khomchenko/" target="_blank" rel="noopener noreferrer">Instagram</a>
       </nav>
       <p class="footer-help"><a href="dopomoha.html">Невідкладна допомога</a>: якщо є загроза життю, телефонуйте <a href="tel:103">103</a>.</p>
+      <p class="footer-credit"><a href="https://temssystems.com" rel="noopener">Created by TEMS</a></p>
     </div>
   </footer>
 
