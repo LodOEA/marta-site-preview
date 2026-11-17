@@ -7,8 +7,14 @@
   const KEY = 'marta-comfort';
   const sysReduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const canVibrate = 'vibrate' in navigator && window.matchMedia('(pointer: coarse)').matches;
-  let prefs = { sound: false, haptic: false, motion: !sysReduce, big: false };
-  try { Object.assign(prefs, JSON.parse(localStorage.getItem(KEY) || '{}')); } catch (e) { /* no-op */ }
+  const prefs = { haptic: false, motion: !sysReduce, big: false };
+  try {
+    const saved = JSON.parse(localStorage.getItem(KEY) || '{}');
+    // Read only supported preferences; legacy sound:true must never enable audio.
+    Object.keys(prefs).forEach((key) => {
+      if (typeof saved?.[key] === 'boolean') prefs[key] = saved[key];
+    });
+  } catch (e) { /* no-op */ }
   const savePrefs = () => { try { localStorage.setItem(KEY, JSON.stringify(prefs)); } catch (e) { /* no-op */ } };
   const applyPrefs = () => {
     root.classList.toggle('no-motion', !prefs.motion);
@@ -18,62 +24,23 @@
   if (!canVibrate) $$('.cb-tile[data-pref="haptic"]').forEach((b) => { b.hidden = true; });
   applyPrefs();
 
-  /* ---------- Звуки: мʼякі, але чіткі: як натиснути клавішу, обтягнуту фетром ----------
-     Кожен «дотик» = короткий приглушений клац (шум через низькочастотний фільтр, 12 мс)
-     + теплий низький тон із миттєвою атакою і коротким згасанням. Жодних дзвінких частот
-     вище ~1,6 кГц, гучність дуже низька. Звучать лише після явного ввімкнення. */
-  let ac = null, noise = null, master = null;
-  const audio = () => {
-    if (!ac) {
-      ac = new (window.AudioContext || window.webkitAudioContext)();
-      master = ac.createGain(); master.gain.value = .9;
-      const comp = ac.createDynamicsCompressor(); comp.threshold.value = -24; comp.ratio.value = 3;
-      master.connect(comp); comp.connect(ac.destination);
-      noise = ac.createBuffer(1, ac.sampleRate * .05, ac.sampleRate);
-      const d = noise.getChannelData(0); for (let i = 0; i < d.length; i++) d[i] = (Math.random() * 2 - 1) * (1 - i / d.length);
-    }
-    if (ac.state === 'suspended') ac.resume();
-    return ac;
-  };
-  const felt = (t, vol = .05, cutoff = 900) => {       // приглушений «тук»
-    const c = ac, s = c.createBufferSource(), f = c.createBiquadFilter(), g = c.createGain();
-    s.buffer = noise; f.type = 'lowpass'; f.frequency.value = cutoff; f.Q.value = .7;
-    g.gain.setValueAtTime(vol, t); g.gain.exponentialRampToValueAtTime(.0001, t + .045);
-    s.connect(f); f.connect(g); g.connect(master); s.start(t); s.stop(t + .05);
-  };
-  const body = (t, freq, dur = .22, vol = .06, type = 'triangle', glide = null) => {   // теплий тон
-    const c = ac, o = c.createOscillator(), f = c.createBiquadFilter(), g = c.createGain();
-    o.type = type; o.frequency.setValueAtTime(freq, t);
-    if (glide) o.frequency.exponentialRampToValueAtTime(glide, t + dur);
-    f.type = 'lowpass'; f.frequency.value = 1600;
-    g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(vol, t + .006); g.gain.exponentialRampToValueAtTime(.0001, t + dur);
-    o.connect(f); f.connect(g); g.connect(master); o.start(t); o.stop(t + dur + .05);
-  };
-  const pad = (from, to, dur, vol = .035) => {          // дихання: мʼякий «повітряний» тон
-    const c = ac, t = c.currentTime, g = c.createGain(), f = c.createBiquadFilter();
-    f.type = 'lowpass'; f.frequency.setValueAtTime(500, t); f.frequency.linearRampToValueAtTime(to > from ? 1100 : 450, t + dur);
-    g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(vol, t + dur * .35); g.gain.linearRampToValueAtTime(0, t + dur);
-    [0, 4].forEach((det) => { const o = c.createOscillator(); o.type = 'sine'; o.detune.value = det;
-      o.frequency.setValueAtTime(from, t); o.frequency.exponentialRampToValueAtTime(to, t + dur); o.connect(f); o.start(t); o.stop(t + dur + .05); });
-    f.connect(g); g.connect(master);
-  };
+  /* ---------- Лише дотик: синтез звуку прибрано ---------- */
   const buzz = (p) => { if (prefs.haptic && canVibrate) try { navigator.vibrate(p); } catch (e) { /* no-op */ } };
-  const play = (fn) => { if (!prefs.sound) return; try { audio(); fn(ac.currentTime); } catch (e) { /* no-op */ } };
   const sfx = {
-    tap:    () => { play((t) => { felt(t, .05); body(t, 196, .14, .045); }); buzz(8); },
-    select: () => { play((t) => { felt(t, .06); body(t, 220, .2, .05); body(t + .07, 330, .28, .035, 'sine'); }); buzz(12); },
-    on:     () => { play((t) => { felt(t, .06); body(t, 262, .18, .05, 'triangle', 330); }); buzz(12); },
-    off:    () => { play((t) => { felt(t, .05); body(t, 262, .18, .04, 'triangle', 196); }); buzz(8); },
-    open:   () => { play((t) => { felt(t, .04, 700); body(t, 247, .22, .04, 'sine', 294); }); buzz(6); },
-    close:  () => { play((t) => { felt(t, .035, 600); body(t, 247, .2, .035, 'sine', 208); }); },
-    inhale: () => { play(() => pad(174.6, 261.6, 4)); buzz(30); },
-    exhale: () => { play(() => pad(261.6, 164.8, 6)); buzz([12, 120, 12]); },
-    done:   () => { play((t) => [196, 247, 294].forEach((f, i) => body(t + i * .16, f, .9, .035, 'sine'))); buzz([10, 80, 10]); },
+    tap: () => buzz(8),
+    select: () => buzz(12),
+    on: () => buzz(12),
+    off: () => buzz(8),
+    open: () => buzz(6),
+    close: () => {},
+    inhale: () => buzz(30),
+    exhale: () => buzz([12, 120, 12]),
+    done: () => buzz([10, 80, 10]),
   };
 
   /* ---------- Блок «Комфорт»: плитки-перемикачі ---------- */
   $$('.cb-tile[data-pref]').forEach((b) => b.addEventListener('click', () => {
-    const k = b.dataset.pref; prefs[k] = !prefs[k]; savePrefs(); applyPrefs();
+    const k = b.dataset.pref; if (!(k in prefs)) return; prefs[k] = !prefs[k]; savePrefs(); applyPrefs();
     prefs[k] ? sfx.on() : sfx.off(); motion.update();
   }));
 
@@ -142,13 +109,42 @@
   /* ---------- Тихий «тук» на кнопках і посиланнях запису ---------- */
   $$('.btn, .more, .call').forEach((el) => el.addEventListener('pointerdown', () => sfx.tap()));
 
-  /* ---------- Плаваюча кнопка запису на мобільному ---------- */
-  /* показується, коли кнопки запису першого екрана не видно (зокрема одразу, якщо вона нижче згину) */
-  const floatingCta = $('.floating-cta'), heroCta = $('.hero-cta .btn, .hero-txt > .btn');
-  if (floatingCta && heroCta && 'IntersectionObserver' in window) {
-    new IntersectionObserver(([en]) => floatingCta.classList.toggle('is-visible', !en.isIntersecting)).observe(heroCta);
-  } else if (floatingCta) floatingCta.classList.add('is-visible');
-  if (floatingCta) floatingCta.addEventListener('pointerdown', () => sfx.tap());
+  /* ---------- Адаптивна кнопка запису ---------- */
+  const floatingCta = $('.floating-cta'), headerCta = $('.header-cta'), heroCta = $('.hero-cta .btn, .hero-txt > .btn');
+  if (floatingCta && heroCta) {
+    const blockers = $$('.cta-band, .site-footer, #dyhannya');
+    const mobile = window.matchMedia('(max-width: 960px)');
+    const phone = window.matchMedia('(max-width: 600px)');
+    const updateCta = () => {
+      const headerBottom = $('.site-header').getBoundingClientRect().bottom;
+      const blocked = blockers.some((el) => {
+        const rect = el.getBoundingClientRect();
+        return rect.top < window.innerHeight && rect.bottom > 0;
+      });
+      // Only show after passing the hero button, never while it is below the fold.
+      const visible = mobile.matches && heroCta.getBoundingClientRect().bottom <= headerBottom && !blocked;
+      for (const [cta, active] of [[headerCta, visible && phone.matches], [floatingCta, visible && !phone.matches]]) {
+        cta.classList.toggle('is-visible', active);
+        cta.setAttribute('aria-hidden', String(!active));
+        cta.tabIndex = active ? 0 : -1;
+      }
+      document.body.classList.toggle('has-floating-cta', visible && !phone.matches);
+    };
+    let pending = false;
+    const scheduleCta = () => {
+      if (pending) return;
+      pending = true;
+      requestAnimationFrame(() => { pending = false; updateCta(); });
+    };
+    window.addEventListener('scroll', scheduleCta, { passive: true });
+    window.addEventListener('resize', scheduleCta, { passive: true });
+    if ('IntersectionObserver' in window) {
+      const observer = new IntersectionObserver(scheduleCta);
+      [heroCta, ...blockers].forEach((el) => observer.observe(el));
+    }
+    updateCta();
+  }
+  [floatingCta, headerCta].filter(Boolean).forEach(el => el.addEventListener('pointerdown', () => sfx.tap()));
 
   /* ---------- Темна тема лише за ?theme=dark (для перегляду) ---------- */
   try { if (new URLSearchParams(location.search).get('theme') === 'dark') root.setAttribute('data-theme', 'dark'); } catch (e) { /* no-op */ }
